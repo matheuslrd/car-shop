@@ -29,8 +29,6 @@ class CarService extends MongoService<Car> {
       return { error: parsed.error };
     }
     const car = this.carModel.readOne(id);
-    console.log(car);
-
     return car;
   };
 }

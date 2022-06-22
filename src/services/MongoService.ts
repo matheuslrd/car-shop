@@ -19,6 +19,11 @@ abstract class MongoService<T> {
   public async delete(id: string): Promise<T | null | MongoServiceError> {
     return this.model.delete(id);
   }
+
+  public async update(id: string, obj: T): 
+  Promise<T | null | MongoServiceError> {
+    return this.model.update(id, obj);
+  }
 }
 
 export default MongoService;
