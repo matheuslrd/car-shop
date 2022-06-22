@@ -48,6 +48,28 @@ class MotorcycleController extends Controller<Motorcycle> {
       ? res.json(motorcycle)
       : res.status(404).json({ error: this.errors.notFound });
   };
+
+  update = async (
+    req: Request<{ id: string }>,
+    res: Response<Motorcycle | ResponseError>,
+  ): Promise<typeof res> => {
+    const { id } = req.params;
+    const { body } = req;
+
+    if (Object.keys(body).length === 0) {
+      return res.status(400).json();
+    }
+
+    if (id.length < 24) {
+      return res.status(400).json({ error: this.errors.idHexadecimal });
+    }
+    const motorcycle = await this.service.update(id, body);
+    if (!motorcycle) {
+      return res.status(404)
+        .json({ error: this.errors.notFound });
+    }
+    return res.status(200).json(motorcycle);
+  };
 }
 
 export default MotorcycleController;

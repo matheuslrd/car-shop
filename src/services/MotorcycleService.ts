@@ -17,6 +17,15 @@ class MotorcycleService extends MongoService<Motorcycle> {
     }
     return this.model.create(obj);
   };
+
+  async update(
+    id: string,
+    obj: Motorcycle,
+  ): Promise<Motorcycle | null | MongoServiceError> {
+    const parsed = MotorcycleSchema.safeParse(obj);
+    if (!parsed.success) return { error: parsed.error };
+    return this.model.update(id, obj);
+  }
 }
 
 export default MotorcycleService;
