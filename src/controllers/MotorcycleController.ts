@@ -70,6 +70,21 @@ class MotorcycleController extends Controller<Motorcycle> {
     }
     return res.status(200).json(motorcycle);
   };
+
+  delete = async (
+    req: Request<{ id: string }>,
+    res: Response<Motorcycle | ResponseError>,
+  ): Promise<typeof res> => {
+    const { id } = req.params;
+    if (id.length < 24) {
+      return res.status(400).json({ error: this.errors.idHexadecimal });
+    }
+    const motorcycle = await this.service.delete(id);
+    if (!motorcycle) {
+      return res.status(404).json({ error: this.errors.notFound });
+    }
+    return res.status(204).json(motorcycle);
+  };
 }
 
 export default MotorcycleController;
